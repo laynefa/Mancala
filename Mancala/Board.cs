@@ -8,13 +8,13 @@ namespace Mancala
     {
         Player player1;
         Player player2;
-        bool player1Turn;
+        bool gameEnd;
 
         public Board()
         {
             player1 = new Player();
             player2 = new Player();
-            player1Turn = true;
+            gameEnd = false;
         }
 
         public void PrintBoard()
@@ -32,61 +32,38 @@ namespace Mancala
             Console.WriteLine();
         }
 
+        public void PrintResult()
+        {
+            int player1Score = player1.GetScore();
+            int player2Score = player2.GetScore();
+            Console.WriteLine("P1: " + player1.PrintScore());
+            Console.WriteLine("P2: " + player2.PrintScore());
+            if (player1Score > player2Score)
+                Console.WriteLine("P1 Wins");
+            else if (player2Score > player1Score)
+                Console.WriteLine("P2 Wins");
+            else
+                Console.WriteLine("Tie");
+
+        }
+
         public bool Player1Move(int pocketNumber)
         {
-            int stonesToMove = player1.pockets[pocketNumber - 1].Take();
-            if (stonesToMove != 0)
-                return MovePocketStones(pocketNumber - 1, stonesToMove, player1, player2);
-            else
-            {
-                Console.WriteLine("Pick pocket that has stones\n");
-                return false;
-            }
+            bool result = player1.TakeTurn(pocketNumber, player2);
+            gameEnd = player1.CheckEmptyPockets();
+            return result;
         }
 
         public bool Player2Move(int pocketNumber)
         {
-            int stonesToMove = player2.pockets[pocketNumber - 1].Take();
-            if (stonesToMove != 0)
-                return MovePocketStones(pocketNumber - 1, stonesToMove, player2, player1);
-            else
-            {
-                Console.WriteLine("Pick pocket that has stones\n");
-                return false;
-            }
+            bool result = player2.TakeTurn(pocketNumber, player1);
+            gameEnd = player2.CheckEmptyPockets();
+            return result;
         }
 
-        public bool MovePocketStones(int pocketNumber, int stonesToMove, Player player, Player opponent)
+        public bool IsGameOver()
         {
-            for (int i = pocketNumber + 1; i < 6; i++)
-            {
-                player.pockets[i].Add(1);
-                stonesToMove--;
-                if (stonesToMove == 0)
-                {
-                    // Check if current pocket has one stone (had 0 previous to add operation). if so, check if opposite pocket has stones. If it does, take stones and add to player store
-                    if (player.pockets[i].stones == 1 && opponent.pockets[5-i].stones > 0)
-                        player.store.Add(opponent.pockets[5-i].Take() + player.pockets[i].Take());
-                    return false; // player turn complete
-                }
-            }
-            player.store.Add(1);
-            stonesToMove--;
-            if (stonesToMove == 0)
-                return true; // extra player move since turn ended in store
-            else
-            {
-                // Start placing in opposing stores
-                for (int i = 0; i < 6; i++)
-                {
-                    opponent.pockets[i].Add(1);
-                    stonesToMove--;
-                    if (stonesToMove == 0)
-                        return false; // player turn complete
-                }
-                return MovePocketStones(-1, stonesToMove, player, opponent);
-            }
+            return gameEnd;
         }
-
     }
 }

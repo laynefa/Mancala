@@ -8,32 +8,45 @@ namespace Mancala
         {
             bool gameComplete = false;
             Board board = new Board();
-            bool player1ExtraTurn = false;
-            bool player2ExtraTurn = false;
+            bool player1AvailableTurn;
+            bool player2AvailableTurn;
             int pocketNumber;
             while (!gameComplete)
             {
                 board.PrintBoard();
+                player1AvailableTurn = true;
+                player2AvailableTurn = true;
                 Console.Write("P1: Choose pocket to move: ");
                 pocketNumber = Int32.Parse(Console.ReadLine());
                 Console.WriteLine();
-                if (pocketNumber > 0 && pocketNumber <= 6)
+                player1AvailableTurn = board.Player1Move(pocketNumber);
+                while (!player1AvailableTurn && player2AvailableTurn)
                 {
-                    player1ExtraTurn = board.Player1Move(pocketNumber);
-                    if (!player1ExtraTurn && !player2ExtraTurn)
+                    if (!board.IsGameOver())
                     {
                         //Move to player 2 turn
+                        board.PrintBoard();
                         Console.Write("P2: Choose pocket to move: ");
                         pocketNumber = Int32.Parse(Console.ReadLine());
                         Console.WriteLine();
-                        if (pocketNumber > 0 && pocketNumber <= 6)
+                        player2AvailableTurn = board.Player2Move(pocketNumber);
+                    }
+                    else
+                    {
+                        board.PrintBoard();
+                        Console.WriteLine("Game Over!");
+                        board.PrintResult();
+                        Console.WriteLine("Play again? y/n");
+                        if (Console.ReadLine() == "y")
                         {
-                            player2ExtraTurn = board.Player2Move(pocketNumber);
+                            board = new Board();
+                            gameComplete = false;
+
                         }
+                        else
+                            gameComplete = true;
                     }
                 }
-                else
-                    Console.WriteLine("Please pick a valid pocket number on your side\n");
             }
         }
     }
