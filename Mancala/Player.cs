@@ -58,7 +58,7 @@ namespace Mancala
             return true;
         }
 
-        public bool TakeTurn(int pocketNumber, Player opponent)
+        public virtual bool TakeTurn(int pocketNumber, Player opponent)
         {
             bool additionalTurn;
             if (pocketNumber > 0 && pocketNumber <= 6)

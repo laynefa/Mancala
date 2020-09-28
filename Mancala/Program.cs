@@ -7,7 +7,16 @@ namespace Mancala
         static void Main(string[] args)
         {
             bool gameComplete = false;
-            Board board = new Board();
+            Board board;
+            Console.Write("Vs CPU? y/n: ");
+            bool cpuEnable = false;
+            if (Console.ReadLine() == "y")
+            {
+                board = new Board(new Player(), new CpuPlayer());
+                cpuEnable = true;
+            }
+            else
+                board = new Board(new Player(), new Player());
             bool player1AvailableTurn;
             bool player2AvailableTurn;
             int pocketNumber;
@@ -26,9 +35,14 @@ namespace Mancala
                     {
                         //Move to player 2 turn
                         board.PrintBoard();
-                        Console.Write("P2: Choose pocket to move: ");
-                        pocketNumber = Int32.Parse(Console.ReadLine());
-                        Console.WriteLine();
+                        if (!cpuEnable)
+                        {
+                            Console.Write("P2: Choose pocket to move: ");
+                            pocketNumber = Int32.Parse(Console.ReadLine());
+                            Console.WriteLine();
+                        }
+                        else
+                            Console.WriteLine("CPU Turn...\n");
                         player2AvailableTurn = board.Player2Move(pocketNumber);
                     }
                     else
