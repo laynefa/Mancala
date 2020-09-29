@@ -22,7 +22,7 @@ namespace Mancala
 
             for (int i = 0; i < 6; i++)
             {
-                printedPockets = printedPockets + pockets[i].stones.ToString() + "  ";
+                printedPockets = printedPockets + pockets[i].Stones.ToString() + "  ";
             }
             return printedPockets;
         }
@@ -33,7 +33,7 @@ namespace Mancala
 
             for (int i = 5; i >= 0; i--)
             {
-                printedPockets = printedPockets + pockets[i].stones.ToString() + "  ";
+                printedPockets = printedPockets + pockets[i].Stones.ToString() + "  ";
             }
             return printedPockets;
         }
@@ -41,11 +41,6 @@ namespace Mancala
         public int GetScore()
         {
             return store.GetCount();
-        }
-
-        public String PrintScore()
-        {
-            return store.GetCount().ToString();
         }
 
         public bool CheckEmptyPockets()
@@ -94,7 +89,7 @@ namespace Mancala
                 if (stonesToMove == 0)
                 {
                     // Check if current pocket has one stone (had 0 previous to add operation). if so, check if opposite pocket has stones. If it does, take stones and add to player store
-                    if (pockets[i].stones == 1 && opponent.pockets[5 - i].stones > 0)
+                    if (pockets[i].Stones == 1 && opponent.pockets[5 - i].Stones > 0)
                         store.Add(opponent.pockets[5 - i].Take() + pockets[i].Take());
                     return false; // player turn complete
                 }

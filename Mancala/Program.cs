@@ -23,31 +23,25 @@ namespace Mancala
             while (!gameComplete)
             {
                 board.PrintBoard();
-                player1AvailableTurn = true;
                 player2AvailableTurn = true;
-                Console.Write("P1: Choose pocket to move: ");
-                pocketNumber = Int32.Parse(Console.ReadLine());
-                Console.WriteLine();
+                pocketNumber = ChoosePocket("P1");
                 player1AvailableTurn = board.Player1Move(pocketNumber);
                 while (!player1AvailableTurn && player2AvailableTurn)
                 {
+                    board.PrintBoard();
                     if (!board.IsGameOver())
                     {
                         //Move to player 2 turn
-                        board.PrintBoard();
+                        //board.PrintBoard();
                         if (!cpuEnable)
-                        {
-                            Console.Write("P2: Choose pocket to move: ");
-                            pocketNumber = Int32.Parse(Console.ReadLine());
-                            Console.WriteLine();
-                        }
+                            pocketNumber = ChoosePocket("P2");
                         else
                             Console.WriteLine("CPU Turn...\n");
                         player2AvailableTurn = board.Player2Move(pocketNumber);
                     }
                     else
                     {
-                        board.PrintBoard();
+                        //board.PrintBoard();
                         Console.WriteLine("Game Over!");
                         board.PrintResult();
                         Console.WriteLine("Play again? y/n");
@@ -62,6 +56,14 @@ namespace Mancala
                     }
                 }
             }
+        }
+
+        static int ChoosePocket(string player)
+        {
+            Console.Write(player + ": Choose pocket to move: ");
+            int pocketNumber = Int32.Parse(Console.ReadLine());
+            Console.WriteLine();
+            return pocketNumber;
         }
     }
 }

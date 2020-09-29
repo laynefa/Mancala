@@ -43,8 +43,8 @@ namespace Mancala
         {
             int player1Score = player1.GetScore();
             int player2Score = player2.GetScore();
-            Console.WriteLine("P1: " + player1.PrintScore());
-            Console.WriteLine("P2: " + player2.PrintScore());
+            Console.WriteLine("P1: " + player1Score.ToString());
+            Console.WriteLine("P2: " + player2Score.ToString());
             if (player1Score > player2Score)
                 Console.WriteLine("P1 Wins");
             else if (player2Score > player1Score)

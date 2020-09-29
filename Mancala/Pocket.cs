@@ -6,28 +6,28 @@ namespace Mancala
 {
     class Pocket
     {
-        public int stones;
+        public int Stones { get; set; }
         bool empty;
 
         public Pocket()
         {
-            stones = 4;
+            Stones = 4;
             empty = false;
         }
 
         public void Add(int stoneCount)
         {
-            if (IsEmpty())
+            if(IsEmpty())
                 empty = false;
-            stones += stoneCount;
+            Stones += stoneCount;
         }
 
         public int Take()
         {
-            if (stones == 0)
-                return stones;
-            int movingStones = stones;
-            stones = 0;
+            if (Stones == 0)
+                return Stones;
+            int movingStones = Stones;
+            Stones = 0;
             empty = true;
             return movingStones;
         }
